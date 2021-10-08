@@ -24,16 +24,16 @@ if [[ $latestversion > $currentversion ]]; then
 	dpkg -i plexmediaserver-$latestversion.deb 2>&1 >/dev/null
 	if [[ $(dpkg -s plexmediaserver | awk -F'[- ]' '/^Version:/ { print $2 }') = $latestversion ]]; then
 	  printf "plexmediaserver updated successfully from version %s to %s... \n" "$currentversion" "$latestversion"
-	  printf -- "%(%Y-%m-%d %H:%M:%S)T [SUCCESS] plexmediaserver updated to %s... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
+	  printf -- "%(%Y-%m-%d %H:%M)T [SUCCESS] plexmediaserver updated to %s... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
 	  printf "Starting plexmediaserver... \n"
 	  systemctl start plexmediaserver.service 2>&1 >/dev/null
 	  printf "Cleaning up %s... \n" "$downloadfolder"
 	  rm -f $downloadfolder/*.deb
 	else
 	  printf "Installation of plexmediaserver %s failed... \nTerminated... \n" "$latestversion"
-	  printf -- "%(%Y-%m-%d %H:%M:%S)T [ERROR] plexmediaserver %s update failed... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
+	  printf -- "%(%Y-%m-%d %H:%M)T [ERROR] plexmediaserver %s update failed... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
 	fi
 else
 	printf "plexmediaserver %s is already installed... \nTerminated... \n" "$latestversion"
-	printf -- "%(%Y-%m-%d %H:%M:%S)T [INFO] plexmediaserver %s is already installed... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
+	printf -- "%(%Y-%m-%d %H:%M)T [INFO] plexmediaserver %s is already installed... \n" "$(date +%s)" "$latestversion" | tee -a $downloadfolder/update.log >/dev/null
 fi
